@@ -93,6 +93,7 @@ function createButtons(users, Status) {
         dropDiv.appendChild(button);
         dropDiv.appendChild(subDiv);
         button.addEventListener('click', dropdownhandler('myDropdown' + element.name, false));
+        // updateCss(element, element.currentstatus);
 
         Status.forEach(elem => {
             let sbutton = document.createElement('button');
@@ -155,40 +156,41 @@ class User {
             })
     }
 
-    updateCss(User) {
+    updateCss(User, Status) {
         const userButton = document.getElementById(User.name);
         let color = '46C56C';
-        switch (User.currentstatus) {
+        switch (Status.number) {
             case 1:
-                color = '46C56C';
+                color = 'rgb(73,202,109)';
                 break
             case 2:
-                color = '50B1F8';
+                color = 'black';
                 break
             case 3:
-                color = '0A3945';
+                color = 'rgb(10,57,69)';
                 break
             case 5:
-                color = 'F95547';
+                color = 'rgb(249,85,71)';
                 break
             case 7:
-                color = '8052A3';
+                color = 'rgb(209,192,222)';
                 break
             case 9:
-                color = 'E8B32D';
+                color = 'rgb(232,179,45)';
                 break
             case 11:
-                color = 'E8B32D';
+                color = 'rgb(94,128,130)';
                 break
             case 12:
-                color = '25B3AB';
+                color = 'rgb(37,179,171)';
                 break
             case 13:
         }
 
 
-        userButton.style.backgroundColor = color.toString;
+        userButton.style.backgroundColor = color;
         console.log(userButton.style.backgroundColor);
+
     }
 }
 
