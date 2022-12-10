@@ -4,6 +4,24 @@ let Status_list = [];
 let settings = document.getElementById('sub');
 settings.addEventListener('click', changeacckey);
 
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+}
+
+let dropdownhandler = function(divid) {
+    return function() { document.getElementById(divid).classList.toggle("show") };
+};
+
 
 // q0ZgVgxndt493LFId4DU
 // d6jUinigCJsSwEKc2geH
@@ -23,8 +41,8 @@ async function getStatus(acckey) {
         .then(data => {
             let status = data.Statuses;
             status.forEach(element => {
-                console.log(element.Name, element.ID, element.color)
-                Status_list.push(new Status(element.Name, element.ID, element.Color))
+                console.log(element.Name, element.ID, element.Color)
+                Status_list.push(new Status(element.Name, element.ID))
             })
 
         })
@@ -45,7 +63,7 @@ async function getUsers(acckey) {
                 console.log(element.name, element.onlineUserStatus, element.userID, element.username)
                 Users_list.push(new User(element.name, element.onlineUserStatus, element.userID, element.username));
             })
-        }).catch(console.error('error'))
+        })
 }
 
 
@@ -93,13 +111,12 @@ function createButtons(users, Status) {
 
 
 class Status {
-    constructor(name, number, color) {
+    constructor(name, number) {
         this.name = name;
         this.number = number;
-        this.color = color;
+
     }
 }
-
 class User {
     constructor(name, currentstatus, userid, sipid) {
 
@@ -130,42 +147,63 @@ class User {
     async ValidateUserStatus(User, acckey) {
         let callloguri = `https://monapisec.voicenter.co.il/comet/API/GetExtensionsCalls?code=${acckey}&extension=${User.sipid}`;
         return fetch(callloguri)
-            .then(response => response.json)
+            .then(response => response.json())
             .then(data => {
-                let ext = data.EXTENSIONS;
-                let currentstatu = ext.onlineUserStatus
-                User.currentstatus = currentstatu;
+                console.log(data.EXTENSIONS[0].onlineUserStatus);
+                User.currentstatus = data.EXTENSIONS[0].onlineUserStatus;
                 console.log(User.currentstatus);
             })
     }
-}
 
-
-let triggerstatuschange = function(user, elem) {
-    return async function() {
-        await user.Changestatus(user, elem, acckey);
-        await user.ValidateUserStatus(user, acckey);
-
-    }
-}
-
-let dropdownhandler = function(divid) {
-    return function() { document.getElementById(divid).classList.toggle("show") };
-};
-
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function(event) {
-    if (!event.target.matches('.dropbtn')) {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        var i;
-        for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show')) {
-                openDropdown.classList.remove('show');
-            }
+    updateCss(User) {
+        const userButton = document.getElementById(User.name);
+        let color = '46C56C';
+        switch (User.currentstatus) {
+            case 1:
+                color = '46C56C';
+                break
+            case 2:
+                color = '50B1F8';
+                break
+            case 3:
+                color = '0A3945';
+                break
+            case 5:
+                color = 'F95547';
+                break
+            case 7:
+                color = '8052A3';
+                break
+            case 9:
+                color = 'E8B32D';
+                break
+            case 11:
+                color = 'E8B32D';
+                break
+            case 12:
+                color = '25B3AB';
+                break
+            case 13:
         }
+
+
+        userButton.style.backgroundColor = color.toString;
+        console.log(userButton.style.backgroundColor);
     }
 }
+
+
+let triggerstatuschange = function(User, elem) {
+    return async function() {
+        await User.Changestatus(User, elem, acckey);
+        await User.ValidateUserStatus(User, acckey);
+        User.updateCss(User, elem);
+    }
+}
+
+
+
+
 
 async function start(acckey) {
     await getStatus(acckey);
