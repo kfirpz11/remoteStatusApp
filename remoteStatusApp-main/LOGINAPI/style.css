@@ -1,0 +1,88 @@
+    .dropbtn {
+        /* Rectangle 1 */
+        box-sizing: border-box;
+        /* position: */
+        width: 100%;
+        height: 75px;
+        background: #34BCC5;
+        border: 3px solid #106666;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: large;
+    }
+    
+    .dropbtn:hover,
+    .dropbtn:focus {
+        background-color: #2980B9;
+    }
+    
+    .dropdown {
+        position: relative;
+        /* float: ; */
+        display: inline-flexbox;
+        /* min-height: 75px; */
+        min-width: 150px;
+        max-width: 100%;
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        width: 100%;
+        border-radius: 25px;
+    }
+    
+    .dropdown-content button {
+        /* Rectangle 1 */
+        box-sizing: border-box;
+        position: relative;
+        width: 100%;
+        height: 35px;
+        background: #1F9EA6;
+        border: 0px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        /* border-radius: 10px; */
+        cursor: pointer;
+        font-size: larger;
+        /* margin: 5px; */
+    }
+    
+    .dropdown-content button:hover {
+        background-color: #1eb7c2;
+    }
+    
+    .show {
+        display: block;
+    }
+    
+    .users {
+        display: grid;
+        column-gap: 10px;
+        row-gap: 10px;
+        grid-template-columns: 25% 25% 25% 25%;
+        max-width: 98%;
+        grid-area: 1;
+        /* align-items: center; */
+    }
+    
+    .settings {
+        padding-top: 25px;
+    }
+    
+    @media screen and (max-width: 700px) {
+        .users {
+            grid-auto-flow: row;
+            grid-template-columns: 100%;
+            max-width: 100%;
+        }
+        .dropbtn {
+            /* height: inherit; */
+        }
+    }
