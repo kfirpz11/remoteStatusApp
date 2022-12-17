@@ -24,9 +24,7 @@ let dropdownhandler = function(divid) {
 };
 
 
-// q0ZgVgxndt493LFId4DU
-// d6jUinigCJsSwEKc2geH
-// BEDGFss4Uiio5IV3Q04D
+
 
 function changeacckey() {
     console.log('clicked');
