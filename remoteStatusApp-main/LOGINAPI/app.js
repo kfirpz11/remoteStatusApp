@@ -101,7 +101,7 @@ async function createButtons(users, Status) {
             subDiv.appendChild(sbutton);
             sbutton.appendChild(txt);
             sbutton.setAttribute('id', elem.name + element.name);
-            sbutton.addEventListener('click', triggerstatuschange(element, elem))
+            sbutton.addEventListener('click', triggerstatuschange(element, elem));
         })
         i++;
 
@@ -129,7 +129,7 @@ class Status {
                 color = 'black';
                 break
             case 3:
-
+                break
             case 5:
                 color = 'rgb(10,57,69)';
                 break
@@ -167,13 +167,15 @@ class User {
             console.log("changing status");
             return fetch(loginUri)
                 .then((res) => {
+                    let sucsess
                     if (res.ok) {
-                        console.log();
                         console.log(res.status);
                         console.log(`changed ${User.name} status to status ${Status.name}`)
-                    } else {
-                        console.error('ERROR');
+                        return sucsess = true;
                     }
+                    console.error('ERROR');
+                    return sucsess = false;
+
                 })
 
 
@@ -186,8 +188,12 @@ class User {
             .then(data => {
                 console.log(User.currentstatus == data.EXTENSIONS[0].onlineUserStatus)
                 console.log(`JSON ` + data.EXTENSIONS[0].onlineUserStatus);
-                User.currentstatus = data.EXTENSIONS[0].onlineUserStatus;
+
                 console.log(`USER ` + User.currentstatus);
+                if (User.currentstatus !== data.EXTENSIONS[0].onlineUserStatus) {
+                    User.currentstatus = data.EXTENSIONS[0].onlineUserStatus;
+                }
+
             })
     }
 
@@ -205,6 +211,7 @@ let triggerstatuschange = function(User, Status) {
         await User.Changestatus(User, Status, acckey);
         await User.ValidateUserStatus(User, acckey);
         User.updateCss(User, Status);
+        return alert(User.name + ' not connected');
     }
 }
 
@@ -214,25 +221,30 @@ let triggerstatuschange = function(User, Status) {
 
 async function start(acckey) {
     await getStatus(acckey);
-    await getUsers(acckey);
+    if (1)
+        await getUsers(acckey);
     await createButtons(Users_list, Status_list);
 }
 
 
 function checkSpaces(name) {
-    let i = 0
-    let second = 0
-    while (i != 2) {
-        let space = name.indexOf(" ", second);
-        console.log(space);
-        i++;
+    const regex = /[^a-zA-Z0-9_/\s/\u05D0-\u05EA]/;
+    const spaceCount = name.split(' ').length - 1;
+    for (let i = 0; i < spaceCount; i++) {
+        let space = name.indexOf(' ');
+        if (regex.exec(name, space) == space + 1) {
+            last
+        }
+    }
+    const lastspace = name.lastIndexOf(' ');
+    console.log(regex.exec(name, lastspace));
+    if (regex.exec(name, lastspace) !== null && spaceCount > 1) {
+        console.log(name.substring(0, lastspace));
+        return name.substring(0, lastspace);
+    }
 
-        second = space + 1;
-    }
-    console.log(name.substring(0, second - 1))
-    if (second != 0) {
-        return name.substring(0, second - 1);
-    }
-    console.log(name)
-    return name
+    return name;
 }
+
+checkSpaces('ani kaki gadol -654');
+checkSpaces('kfir perez');
